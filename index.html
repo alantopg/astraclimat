@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AstraClimat — Ремонт автокондиционеров в Астрахани</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ice: #00CFFF;
+    --dark: #0a0f1a;
+    --darker: #060a12;
+    --card: #0e1728;
+    --card2: #111f35;
+    --text: #e8f4ff;
+    --muted: #7a9ab5;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body { background:var(--darker); color:var(--text); font-family:'Montserrat',sans-serif; overflow-x:hidden; }
+
+  /* NAV */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 60px;
+    background:rgba(6,10,18,0.9); backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(0,207,255,0.1);
+  }
+  .logo { font-family:'Bebas Neue',sans-serif; font-size:26px; letter-spacing:3px; color:var(--ice); text-decoration:none; }
+  .logo span { color:var(--text); }
+  nav ul { list-style:none; display:flex; gap:32px; }
+  nav ul a { color:var(--muted); text-decoration:none; font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase; transition:color 0.2s; }
+  nav ul a:hover { color:var(--ice); }
+  .nav-cta { background:var(--ice); color:var(--darker)!important; padding:9px 20px; border-radius:6px; font-weight:700!important; }
+
+  /* HERO */
+  .hero {
+    min-height:100vh; display:flex; align-items:center;
+    position:relative; overflow:hidden; padding:120px 60px 100px;
+  }
+  .hero-bg {
+    position:absolute; inset:0;
+    background: radial-gradient(ellipse 70% 60% at 65% 40%, rgba(0,207,255,0.09) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 15% 75%, rgba(0,80,180,0.07) 0%, transparent 60%);
+  }
+  .grid-bg {
+    position:absolute; inset:0;
+    background-image: linear-gradient(rgba(0,207,255,0.04) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(0,207,255,0.04) 1px, transparent 1px);
+    background-size:60px 60px;
+  }
+  .hero-content { position:relative; z-index:2; max-width:680px; }
+  .hero-badge {
+    display:inline-block; background:rgba(0,207,255,0.12);
+    border:1px solid rgba(0,207,255,0.3); color:var(--ice);
+    font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+    padding:7px 16px; border-radius:100px; margin-bottom:28px;
+  }
+  .hero h1 { font-family:'Bebas Neue',sans-serif; font-size:clamp(62px,8.5vw,106px); line-height:0.9; letter-spacing:2px; margin-bottom:24px; }
+  .hero h1 .ice { color:var(--ice); }
+  .hero p { font-size:16px; color:var(--muted); line-height:1.75; max-width:500px; margin-bottom:40px; }
+  .hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
+  .btn-primary {
+    background:var(--ice); color:var(--darker); padding:15px 34px;
+    border-radius:8px; font-weight:700; font-size:14px; text-decoration:none;
+    transition:transform 0.2s, box-shadow 0.2s;
+    box-shadow:0 0 28px rgba(0,207,255,0.3);
+  }
+  .btn-primary:hover { transform:translateY(-2px); box-shadow:0 0 48px rgba(0,207,255,0.5); }
+  .btn-outline {
+    border:1.5px solid rgba(0,207,255,0.4); color:var(--ice);
+    padding:15px 34px; border-radius:8px; font-weight:600; font-size:14px;
+    text-decoration:none; transition:background 0.2s, border-color 0.2s;
+  }
+  .btn-outline:hover { background:rgba(0,207,255,0.08); border-color:var(--ice); }
+
+  /* STATS BAR */
+  .stats-bar {
+    position:relative; z-index:2;
+    display:flex; gap:0;
+    border-top:1px solid rgba(0,207,255,0.12);
+    margin-top:60px;
+  }
+  .stat { flex:1; padding:28px 0; border-right:1px solid rgba(0,207,255,0.1); text-align:center; }
+  .stat:last-child { border-right:none; }
+  .stat-num { font-family:'Bebas Neue',sans-serif; font-size:46px; color:var(--ice); line-height:1; }
+  .stat-label { font-size:11px; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; margin-top:4px; }
+
+  /* SECTIONS */
+  section { padding:90px 60px; }
+  .section-label { font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--ice); margin-bottom:14px; }
+  .section-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(40px,5vw,62px); letter-spacing:2px; margin-bottom:50px; line-height:1; }
+
+  /* SERVICES */
+  .services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+  .service-card {
+    background:var(--card); border:1px solid rgba(0,207,255,0.1);
+    border-radius:14px; padding:32px; transition:border-color 0.3s, transform 0.3s;
+    position:relative; overflow:hidden;
+  }
+  .service-card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
+    background:linear-gradient(90deg, transparent, var(--ice), transparent);
+    opacity:0; transition:opacity 0.3s;
+  }
+  .service-card:hover { border-color:rgba(0,207,255,0.3); transform:translateY(-4px); }
+  .service-card:hover::before { opacity:1; }
+  .service-icon { font-size:34px; margin-bottom:18px; display:block; }
+  .service-card h3 { font-size:16px; font-weight:700; margin-bottom:10px; }
+  .service-card p { font-size:13px; color:var(--muted); line-height:1.65; }
+  .service-price { margin-top:18px; font-size:13px; color:var(--ice); font-weight:700; }
+
+  /* WORKS LIST */
+  .works-section { background:var(--card); }
+  .works-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+  .work-item {
+    background:var(--darker); border:1px solid rgba(0,207,255,0.08);
+    border-radius:12px; padding:20px; font-size:14px; font-weight:500;
+    display:flex; align-items:center; gap:12px; color:var(--text);
+  }
+  .work-item span { font-size:22px; }
+
+  /* PRICES */
+  .prices-section { background:var(--darker); }
+  .prices-tabs { display:flex; gap:8px; margin-bottom:40px; flex-wrap:wrap; }
+  .tab-btn {
+    padding:9px 20px; border-radius:100px; font-size:12px; font-weight:600;
+    cursor:pointer; border:1.5px solid rgba(0,207,255,0.2);
+    background:transparent; color:var(--muted); transition:all 0.2s; font-family:'Montserrat',sans-serif;
+  }
+  .tab-btn.active { background:var(--ice); color:var(--darker); border-color:var(--ice); }
+  .price-table { display:none; width:100%; }
+  .price-table.active { display:table; }
+  table { width:100%; border-collapse:collapse; }
+  thead th {
+    text-align:left; font-size:11px; font-weight:700; letter-spacing:1.5px;
+    text-transform:uppercase; color:var(--muted); padding:0 0 18px;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  thead th:last-child { text-align:right; }
+  tbody tr { border-bottom:1px solid rgba(255,255,255,0.04); transition:background 0.15s; }
+  tbody tr:hover { background:rgba(0,207,255,0.04); }
+  tbody td { padding:15px 0; font-size:14px; color:var(--text); }
+  tbody td:last-child { text-align:right; color:var(--ice); font-weight:700; white-space:nowrap; }
+  td.desc { font-size:12px; color:var(--muted); padding-left:14px; }
+
+  /* REVIEWS */
+  .reviews-section { background:var(--card); }
+  .reviews-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  .review-card {
+    background:var(--darker); border:1px solid rgba(0,207,255,0.08);
+    border-radius:14px; padding:28px;
+  }
+  .review-header { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+  .review-avatar {
+    width:44px; height:44px; border-radius:50%;
+    background:rgba(0,207,255,0.15); display:flex; align-items:center;
+    justify-content:center; font-size:18px; font-weight:700; color:var(--ice);
+    flex-shrink:0;
+  }
+  .review-name { font-weight:700; font-size:14px; margin-bottom:4px; }
+  .review-stars { color:var(--ice); font-size:13px; letter-spacing:1px; }
+  .review-text { font-size:13px; color:var(--muted); line-height:1.7; }
+  .review-reply {
+    margin-top:14px; padding:12px; background:rgba(0,207,255,0.06);
+    border-left:2px solid var(--ice); border-radius:0 8px 8px 0;
+    font-size:12px; color:var(--muted);
+  }
+  .review-reply strong { color:var(--ice); font-size:11px; display:block; margin-bottom:4px; letter-spacing:1px; text-transform:uppercase; }
+
+  /* ASPECTS */
+  .aspects-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:16px; margin-bottom:50px; }
+  .aspect-card {
+    background:var(--darker); border:1px solid rgba(0,207,255,0.08);
+    border-radius:12px; padding:20px; text-align:center;
+  }
+  .aspect-num { font-family:'Bebas Neue',sans-serif; font-size:38px; color:var(--ice); }
+  .aspect-bar { height:4px; background:rgba(0,207,255,0.15); border-radius:2px; margin:8px 0; overflow:hidden; }
+  .aspect-fill { height:100%; background:var(--ice); border-radius:2px; }
+  .aspect-name { font-size:12px; color:var(--muted); font-weight:600; }
+
+  /* WHY */
+  .why-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+  .why-card {
+    text-align:center; padding:36px 20px;
+    background:var(--card); border-radius:14px; border:1px solid rgba(0,207,255,0.08);
+  }
+  .why-icon { font-size:40px; margin-bottom:14px; }
+  .why-card h3 { font-size:15px; font-weight:700; margin-bottom:8px; }
+  .why-card p { font-size:13px; color:var(--muted); line-height:1.6; }
+
+  /* PAYMENT */
+  .payment-chips { display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
+  .chip {
+    background:rgba(0,207,255,0.08); border:1px solid rgba(0,207,255,0.2);
+    color:var(--text); padding:8px 16px; border-radius:100px; font-size:13px; font-weight:500;
+  }
+
+  /* CONTACTS */
+  .contacts-wrapper { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start; }
+  .contact-item { display:flex; align-items:flex-start; gap:16px; margin-bottom:26px; }
+  .contact-icon {
+    width:44px; height:44px; background:rgba(0,207,255,0.12);
+    border-radius:10px; display:flex; align-items:center; justify-content:center;
+    font-size:20px; flex-shrink:0;
+  }
+  .contact-item h4 { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+  .contact-item a, .contact-item p { font-size:15px; font-weight:600; color:var(--text); text-decoration:none; line-height:1.5; }
+  .contact-item a:hover { color:var(--ice); }
+  .cta-box {
+    background:linear-gradient(135deg, rgba(0,207,255,0.1) 0%, rgba(0,80,180,0.08) 100%);
+    border:1px solid rgba(0,207,255,0.2); border-radius:20px; padding:44px; text-align:center;
+  }
+  .cta-box h3 { font-family:'Bebas Neue',sans-serif; font-size:40px; letter-spacing:2px; margin-bottom:10px; }
+  .cta-box p { font-size:14px; color:var(--muted); margin-bottom:28px; line-height:1.6; }
+
+  /* FOOTER */
+  footer {
+    background:var(--darker); border-top:1px solid rgba(0,207,255,0.08);
+    padding:36px 60px; display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:12px;
+  }
+  footer p { font-size:12px; color:var(--muted); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+  .hero-content > * { animation:fadeUp 0.7s ease both; }
+  .hero-badge { animation-delay:0.1s; }
+  .hero h1 { animation-delay:0.2s; }
+  .hero p { animation-delay:0.35s; }
+  .hero-btns { animation-delay:0.5s; }
+  .stats-bar { animation-delay:0.6s; animation:fadeUp 0.7s ease both; }
+
+  @media (max-width:900px) {
+    nav { padding:14px 20px; }
+    nav ul { display:none; }
+    .hero { padding:80px 20px 60px; }
+    .hero h1 { font-size: 44px !important; line-height: 1.1; word-break: keep-all; }
+    .hero p { font-size: 14px; }
+    .stats-bar { flex-wrap: wrap; }
+    .stat { flex: 0 0 50%; border-right: none; border-bottom: 1px solid rgba(0,207,255,0.1); }
+    .stat:nth-child(odd) { border-right: 1px solid rgba(0,207,255,0.1); }
+    .stat-num { font-size: 36px; }
+    section { padding:50px 20px; }
+    .section-title { font-size: 36px !important; margin-bottom: 30px; }
+    .services-grid { grid-template-columns:1fr; }
+    .works-grid { grid-template-columns:repeat(2,1fr); }
+    .reviews-grid { grid-template-columns:1fr; }
+    .why-grid { grid-template-columns:repeat(2,1fr); }
+    .contacts-wrapper { grid-template-columns:1fr; gap: 40px; }
+    footer { flex-direction:column; text-align:center; padding: 30px 20px; }
+    .hero-btns { flex-direction: column; }
+    .btn-primary, .btn-outline { text-align: center; display: block; }
+    .prices-tabs { gap: 6px; }
+    .tab-btn { font-size: 11px; padding: 8px 14px; }
+    table { font-size: 13px; }
+    .cta-box { padding: 30px 20px; }
+    .cta-box h3 { font-size: 32px; }
+    .payment-chips { gap: 8px; }
+    .chip { font-size: 12px; padding: 6px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Astra<span>Climat</span></a>
+  <ul>
+    <li><a href="#services">Услуги</a></li>
+    <li><a href="#prices">Прайс</a></li>
+    <li><a href="#reviews">Отзывы</a></li>
+    <li><a href="#contacts">Контакты</a></li>
+    <li><a href="https://wa.me/79275757200" class="nav-cta">Записаться</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="grid-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🌡️ Автокондиционеры · Вебасто · Отопители · Астрахань</div>
+    <h1>ВАША ТЕХНИКА <span class="ice">В НАДЁЖНЫХ</span> РУКАХ</h1>
+    <p>Ремонт, заправка и установка автокондиционеров для легковых, автобусов и грузовых. Также ремонт вебасто, пневмосистем и автономных отопителей. Нормочас от 1 400 ₽.</p>
+    <div class="hero-btns">
+      <a href="https://wa.me/79275757200" class="btn-primary">📲 WhatsApp</a>
+      <a href="tel:+79275757200" class="btn-outline">📞 +7 (927) 575-72-00</a>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat"><div class="stat-num">119</div><div class="stat-label">Отзывов</div></div>
+      <div class="stat"><div class="stat-num">5.0</div><div class="stat-label">Рейтинг</div></div>
+      <div class="stat"><div class="stat-num">181</div><div class="stat-label">Услуга</div></div>
+      <div class="stat"><div class="stat-num">1400</div><div class="stat-label">₽/нормочас</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-label">Что мы делаем</div>
+  <div class="section-title">ВИДЫ РАБОТ</div>
+  <div class="services-grid">
+    <div class="service-card">
+      <span class="service-icon">❄️</span>
+      <h3>Автокондиционеры</h3>
+      <p>Диагностика, заправка, вакуумация, ремонт компрессора, испарителя, конденсора. Легковые, автобусы, грузовые.</p>
+      <div class="service-price">от 1 000 ₽</div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🔥</span>
+      <h3>Вебасто и отопители</h3>
+      <p>Ремонт и установка автономных отопителей Webasto и Eberspächer. Диагностика, замена комплектующих.</p>
+      <div class="service-price">от 1 400 ₽/ч</div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">💨</span>
+      <h3>Пневмосистема</h3>
+      <p>Диагностика и ремонт пневматических систем транспортных средств любой сложности.</p>
+      <div class="service-price">от 1 400 ₽/ч</div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🚌</span>
+      <h3>Автоматические двери</h3>
+      <p>Установка и ремонт автоматических дверей для микроавтобусов и грузовиков.</p>
+      <div class="service-price">от 1 400 ₽/ч</div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🔩</span>
+      <h3>Запчасти в наличии</h3>
+      <p>Компрессоры Sanden, фреон R134A/R404A, фильтры, фитинги, датчики, вентиляторы — всё на складе.</p>
+      <div class="service-price">от 5 ₽</div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🛠️</span>
+      <h3>Установка оборудования</h3>
+      <p>Монтаж кондиционеров, рефрижераторов, ХОУ, фаркопов. Сварочные работы. Антикор.</p>
+      <div class="service-price">от 12 000 ₽</div>
+    </div>
+  </div>
+</section>
+
+<!-- ALL WORKS -->
+<section class="works-section">
+  <div class="section-label">Полный список</div>
+  <div class="section-title">ВСЕ ВИДЫ РАБОТ</div>
+  <div class="works-grid">
+    <div class="work-item"><span>❄️</span>Заправка и ремонт автокондиционера</div>
+    <div class="work-item"><span>🔥</span>Ремонт вебасто</div>
+    <div class="work-item"><span>💨</span>Ремонт пневмосистемы</div>
+    <div class="work-item"><span>🌡️</span>Ремонт автономных отопителей</div>
+    <div class="work-item"><span>📦</span>Запчасти и комплектующие под заказ</div>
+    <div class="work-item"><span>⚙️</span>Установка доп. оборудования</div>
+    <div class="work-item"><span>🚛</span>Ремонт авторефрижераторов</div>
+    <div class="work-item"><span>🔧</span>Ремонт коммерческого транспорта</div>
+    <div class="work-item"><span>♨️</span>Промывка радиатора печки</div>
+    <div class="work-item"><span>🪝</span>Установка фаркопа</div>
+    <div class="work-item"><span>🔩</span>Сварочные работы</div>
+    <div class="work-item"><span>🛡️</span>Антикор</div>
+    <div class="work-item"><span>🔌</span>Базовое сервисное обслуживание</div>
+    <div class="work-item"><span>📝</span>Предварительная запись</div>
+    <div class="work-item"><span>♿</span>Доступно для инвалидов</div>
+    <div class="work-item"><span>💳</span>Оплата картой и СБП</div>
+  </div>
+</section>
+
+<!-- PRICES -->
+<section id="prices" class="prices-section">
+  <div class="section-label">Прозрачные цены</div>
+  <div class="section-title">ПРАЙС-ЛИСТ</div>
+  <div class="prices-tabs">
+    <button class="tab-btn active" data-tab="car">🚗 Легковая</button>
+    <button class="tab-btn" data-tab="bus">🚌 Автобус (BUS)</button>
+    <button class="tab-btn" data-tab="truck">🚛 ХОУ / Грузовая</button>
+    <button class="tab-btn" data-tab="parts">🔩 Запчасти</button>
+  </div>
+
+  <div id="tab-car" class="price-table active">
+    <table>
+      <thead><tr><th>Услуга</th><th></th><th>Цена</th></tr></thead>
+      <tbody>
+        <tr><td>Диагностика</td><td class="desc"></td><td>1 000 ₽</td></tr>
+        <tr><td>Вакуумация и заправка</td><td class="desc"></td><td>1 800 ₽</td></tr>
+        <tr><td>Дозаправка системы (134а, 404а)</td><td class="desc"></td><td>900 ₽</td></tr>
+        <tr><td>Сбор газа</td><td class="desc"></td><td>1 400 ₽</td></tr>
+        <tr><td>Опрессовка системы азотом</td><td class="desc"></td><td>1 200 ₽</td></tr>
+        <tr><td>Промывка системы (1 испаритель)</td><td class="desc"></td><td>от 15 000 ₽</td></tr>
+        <tr><td>Промывка системы (2 испарителя)</td><td class="desc"></td><td>от 18 000 ₽</td></tr>
+        <tr><td>Демонтаж/монтаж компрессора</td><td class="desc"></td><td>3 000 ₽</td></tr>
+        <tr><td>Замена подшипника</td><td class="desc">на снятом компрессоре</td><td>1 000 ₽</td></tr>
+        <tr><td>Замена муфты / шкива / пластины</td><td class="desc"></td><td>1 000 ₽</td></tr>
+        <tr><td>Замена задней крышки</td><td class="desc"></td><td>1 200 ₽</td></tr>
+        <tr><td>Замена клапана</td><td class="desc"></td><td>2 700 ₽</td></tr>
+        <tr><td>Замена сальника</td><td class="desc"></td><td>1 000 ₽</td></tr>
+        <tr><td>Замена предохранительного клапана</td><td class="desc"></td><td>950 ₽</td></tr>
+        <tr><td>Замена испарителя</td><td class="desc">без снятия панелей</td><td>5 000 ₽</td></tr>
+        <tr><td>Замена ТРВ</td><td class="desc"></td><td>900 ₽</td></tr>
+        <tr><td>Замена конденсора</td><td class="desc"></td><td>1 800 ₽</td></tr>
+        <tr><td>Мойка/чистка конденсора</td><td class="desc"></td><td>2 200 ₽</td></tr>
+        <tr><td>Пайка магистрали</td><td class="desc">1 шов</td><td>600 ₽</td></tr>
+        <tr><td>Обжим стакана</td><td class="desc">1 шт</td><td>400 ₽</td></tr>
+        <tr><td>Замена заднего контура</td><td class="desc"></td><td>от 7 200 ₽</td></tr>
+        <tr><td>Замена ремня клин/поликлин</td><td class="desc"></td><td>450 ₽</td></tr>
+        <tr><td>Замена натяжного ролика</td><td class="desc"></td><td>900 ₽</td></tr>
+        <tr><td>ТО-0</td><td class="desc"></td><td>1 800 ₽</td></tr>
+        <tr><td>ТО-1</td><td class="desc"></td><td>от 3 600 ₽</td></tr>
+        <tr><td>ТО-2</td><td class="desc"></td><td>от 5 400 ₽</td></tr>
+        <tr><td>Установка штатного кондиционера</td><td class="desc"></td><td>22 000 ₽</td></tr>
+        <tr><td>Установка электрического моноблока</td><td class="desc"></td><td>12 000 ₽</td></tr>
+        <tr><td>Установка рефрижератора / ХОУ</td><td class="desc"></td><td>24 000 ₽</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="tab-bus" class="price-table">
+    <table>
+      <thead><tr><th>Услуга</th><th></th><th>Цена</th></tr></thead>
+      <tbody>
+        <tr><td>Диагностика</td><td class="desc"></td><td>1 800 ₽</td></tr>
+        <tr><td>Вакуумация и заправка</td><td class="desc"></td><td>2 200 ₽</td></tr>
+        <tr><td>Дозаправка системы</td><td class="desc"></td><td>1 100 ₽</td></tr>
+        <tr><td>Промывка системы (1 испаритель)</td><td class="desc"></td><td>от 20 000 ₽</td></tr>
+        <tr><td>Промывка системы (2 испарителя)</td><td class="desc"></td><td>от 23 000 ₽</td></tr>
+        <tr><td>Демонтаж/монтаж компрессора</td><td class="desc"></td><td>3 600 ₽</td></tr>
+        <tr><td>Замена испарителя</td><td class="desc"></td><td>4 000 ₽</td></tr>
+        <tr><td>Замена ТРВ</td><td class="desc"></td><td>1 200 ₽</td></tr>
+        <tr><td>Замена конденсора</td><td class="desc"></td><td>4 000 ₽</td></tr>
+        <tr><td>Мойка/чистка конденсора</td><td class="desc"></td><td>2 200 ₽</td></tr>
+        <tr><td>Демонтаж магистралей</td><td class="desc"></td><td>5 000 ₽</td></tr>
+        <tr><td>Замена заднего контура</td><td class="desc"></td><td>от 7 200 ₽</td></tr>
+        <tr><td>Установка штатного кондиционера</td><td class="desc"></td><td>26 000 ₽</td></tr>
+        <tr><td>Установка крышного кондиционера</td><td class="desc"></td><td>32 000 ₽</td></tr>
+        <tr><td>Установка рефрижератора / ХОУ</td><td class="desc"></td><td>24 000 ₽</td></tr>
+        <tr><td>ТО-0</td><td class="desc"></td><td>1 800 ₽</td></tr>
+        <tr><td>ТО-1</td><td class="desc"></td><td>от 4 500 ₽</td></tr>
+        <tr><td>ТО-2</td><td class="desc"></td><td>от 9 000 ₽</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="tab-truck" class="price-table">
+    <table>
+      <thead><tr><th>Услуга</th><th></th><th>Цена</th></tr></thead>
+      <tbody>
+        <tr><td>Диагностика</td><td class="desc"></td><td>1 800 ₽</td></tr>
+        <tr><td>Вакуумация и заправка</td><td class="desc"></td><td>2 200 ₽</td></tr>
+        <tr><td>Дозаправка системы</td><td class="desc"></td><td>1 100 ₽</td></tr>
+        <tr><td>Промывка системы (1 испаритель)</td><td class="desc"></td><td>от 20 000 ₽</td></tr>
+        <tr><td>Промывка системы (2 испарителя)</td><td class="desc"></td><td>от 23 000 ₽</td></tr>
+        <tr><td>Демонтаж/монтаж компрессора</td><td class="desc"></td><td>3 600 ₽</td></tr>
+        <tr><td>Замена испарителя</td><td class="desc"></td><td>4 000 ₽</td></tr>
+        <tr><td>Замена конденсора</td><td class="desc"></td><td>4 000 ₽</td></tr>
+        <tr><td>Демонтаж магистралей</td><td class="desc"></td><td>5 000 ₽</td></tr>
+        <tr><td>Установка рефрижератора / ХОУ</td><td class="desc"></td><td>24 000 ₽</td></tr>
+        <tr><td>Установка крышного кондиционера</td><td class="desc"></td><td>32 000 ₽</td></tr>
+        <tr><td>ТО-0</td><td class="desc"></td><td>1 800 ₽</td></tr>
+        <tr><td>ТО-1</td><td class="desc"></td><td>от 4 500 ₽</td></tr>
+        <tr><td>ТО-2</td><td class="desc"></td><td>от 9 000 ₽</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="tab-parts" class="price-table">
+    <table>
+      <thead><tr><th>Запчасть</th><th></th><th>Цена</th></tr></thead>
+      <tbody>
+        <tr><td>Хладагент R134А / R404А</td><td class="desc">за 100 г</td><td>250 ₽</td></tr>
+        <tr><td>Масло компрессорное</td><td class="desc">за 1 мл</td><td>5 ₽</td></tr>
+        <tr><td>Фильтр-осушитель</td><td class="desc"></td><td>от 900 ₽</td></tr>
+        <tr><td>Кольцо уплотнительное</td><td class="desc"></td><td>от 60 ₽</td></tr>
+        <tr><td>Ниппель заправочный</td><td class="desc"></td><td>150 ₽</td></tr>
+        <tr><td>Шланг фреоновый (резина)</td><td class="desc">1 метр</td><td>500 ₽</td></tr>
+        <tr><td>Шланг фреоновый (пластик)</td><td class="desc">Карьер, Термокинг — 1 метр</td><td>760 ₽</td></tr>
+        <tr><td>Фитинг заправочный (порт R134)</td><td class="desc"></td><td>495 ₽</td></tr>
+        <tr><td>Фитинг разрезной / тройник</td><td class="desc"></td><td>220 ₽</td></tr>
+        <tr><td>Фитинг аналог Manuli</td><td class="desc"></td><td>600 ₽</td></tr>
+        <tr><td>Клипса для обжимки (Manuli)</td><td class="desc"></td><td>275 ₽</td></tr>
+        <tr><td>Ресивер</td><td class="desc"></td><td>990 ₽</td></tr>
+        <tr><td>Кронштейн компрессора</td><td class="desc"></td><td>от 5 800 ₽</td></tr>
+        <tr><td>Ремень компрессора</td><td class="desc"></td><td>800 ₽</td></tr>
+        <tr><td>Ролик</td><td class="desc"></td><td>1 800 ₽</td></tr>
+        <tr><td>Компрессор H14 (аналог Sanden)</td><td class="desc"></td><td>14 800 ₽</td></tr>
+        <tr><td>Компрессор Н15 (аналог Sanden)</td><td class="desc"></td><td>17 100 ₽</td></tr>
+        <tr><td>Компрессор ТМ16 (Valio)</td><td class="desc"></td><td>29 850 ₽</td></tr>
+        <tr><td>Электромуфта Н11/Н14/Н15</td><td class="desc"></td><td>3 100 ₽</td></tr>
+        <tr><td>Шкив компрессора А2-РV8</td><td class="desc"></td><td>3 400 ₽</td></tr>
+        <tr><td>Крышка задняя Н11/Н14/Н15</td><td class="desc"></td><td>1 900 ₽</td></tr>
+        <tr><td>ТРВ аналог Danfos R134A</td><td class="desc">регулируемое</td><td>4 500 ₽</td></tr>
+        <tr><td>Вставка расширительная для ТРВ</td><td class="desc"></td><td>1 100 ₽</td></tr>
+        <tr><td>Вентилятор испарителя</td><td class="desc"></td><td>от 2 500 ₽</td></tr>
+        <tr><td>Мотор вентилятора испарителя</td><td class="desc"></td><td>2 600 ₽</td></tr>
+        <tr><td>Вентилятор конденсатора Spal</td><td class="desc">Италия</td><td>7 600 ₽</td></tr>
+        <tr><td>Вентилятор конденсатора 120Вт</td><td class="desc">Китай</td><td>4 500 ₽</td></tr>
+        <tr><td>Датчик температуры</td><td class="desc"></td><td>400 ₽</td></tr>
+        <tr><td>Датчик давления 4-контактный</td><td class="desc"></td><td>950 ₽</td></tr>
+        <tr><td>Датчик давления 2-контактный</td><td class="desc"></td><td>600 ₽</td></tr>
+        <tr><td>Переключатель 228-100, 12V</td><td class="desc"></td><td>1 800 ₽</td></tr>
+        <tr><td>Выключатель 404-100, 12V</td><td class="desc">3-ходовой</td><td>650 ₽</td></tr>
+        <tr><td>Колпак стальной</td><td class="desc"></td><td>60 ₽</td></tr>
+        <tr><td>Колпак алюминиевый</td><td class="desc"></td><td>100 ₽</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews" class="reviews-section">
+  <div class="section-label">Что говорят клиенты</div>
+  <div class="section-title">ОТЗЫВЫ</div>
+
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-header">
+        <div class="review-avatar">S</div>
+        <div>
+          <div class="review-name">Snam1x</div>
+          <div class="review-stars">★★★★★</div>
+        </div>
+      </div>
+      <div class="review-text">Недавно столкнулся с проблемой вибрации в машине. Мастера быстро определили причину и подсказали какие детали нужно заменить. Всё сделали идеально, и теперь моя машина снова как новая! Очень благодарен за профессионализм и внимательность. Рекомендую всем!</div>
+      <div class="review-reply"><strong>Ответ компании</strong>Благодарим за ваш отзыв</div>
+    </div>
+    <div class="review-card">
+      <div class="review-header">
+        <div class="review-avatar">Ф</div>
+        <div>
+          <div class="review-name">Филатов И.</div>
+          <div class="review-stars">★★★★★</div>
+        </div>
+      </div>
+      <div class="review-text">Компания устанавливает, обслуживает и ремонтирует дополнительное оборудование для разных видов транспорта. Можно установить автономные отопители и автоматические двери для микроавтобусов. Для постоянных клиентов есть программа лояльности со скидками 5–10%. Клиенты благодарят за отличное обслуживание.</div>
+      <div class="review-reply"><strong>Ответ компании</strong>Спасибо за вашу оценку</div>
+    </div>
+    <div class="review-card">
+      <div class="review-header">
+        <div class="review-avatar">А</div>
+        <div>
+          <div class="review-name">Алина Варварина</div>
+          <div class="review-stars">★★★★★</div>
+        </div>
+      </div>
+      <div class="review-text">Недавно установили автоматические двери в наш микроавтобус. Результат превзошёл все ожидания! Работа выполнена быстро, профессионально и качественно. Теперь посадка и высадка пассажиров — одно удовольствие. Огромное спасибо за отличную работу!</div>
+      <div class="review-reply"><strong>Ответ компании</strong>Спасибо, мы старались</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="section-label">Почему выбирают нас</div>
+  <div class="section-title">НАШИ ПРЕИМУЩЕСТВА</div>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">⭐</div>
+      <h3>Рейтинг 5.0</h3>
+      <p>119 реальных отзывов на Яндекс Картах — ни одного негативного</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🚗</div>
+      <h3>Любой транспорт</h3>
+      <p>Легковые, автобусы, грузовики, рефрижераторы — работаем со всеми</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🔩</div>
+      <h3>Запчасти на складе</h3>
+      <p>Большой склад — делаем быстро без ожидания поставки</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">✅</div>
+      <h3>Гарантия</h3>
+      <p>Гарантия на все виды работ и установленные запчасти</p>
+    </div>
+  </div>
+
+  <!-- Payment -->
+  <div style="margin-top:50px;">
+    <div class="section-label">Способы оплаты</div>
+    <div class="payment-chips">
+      <div class="chip">💵 Наличные</div>
+      <div class="chip">💳 Карта</div>
+      <div class="chip">📱 СБП</div>
+      <div class="chip">🔳 QR-код</div>
+      <div class="chip">🏦 Банковский перевод</div>
+      <div class="chip">📄 Безналичный расчёт</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTS -->
+<section id="contacts" style="background:var(--card);">
+  <div class="contacts-wrapper">
+    <div class="contacts-info">
+      <div class="section-label">Мы здесь</div>
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:52px;letter-spacing:2px;margin-bottom:36px;line-height:1;">ЗАПИСЬ<br>И КОНТАКТЫ</h2>
+
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div>
+          <h4>Телефоны</h4>
+          <a href="tel:+79275757200">+7 (927) 575-72-00</a><br>
+          <a href="tel:+79053649396">+7 (905) 364-93-96</a><br>
+          <a href="tel:+78512283949">+7 (8512) 28-39-49</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div>
+          <h4>Адрес</h4>
+          <p>Астрахань, Фунтовское шоссе, 5Г</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">🕘</div>
+        <div>
+          <h4>Режим работы</h4>
+          <p>Пн–Пт: 09:00 – 18:00<br>Суббота: 09:00 – 14:00<br>Воскресенье: выходной</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📲</div>
+        <div>
+          <h4>Соцсети</h4>
+          <a href="https://vk.com/astraclimat1" target="_blank">ВКонтакте — vk.com/astraclimat1</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-box">
+      <h3>ЗАПИШИТЕСЬ<br>ПРЯМО СЕЙЧАС</h3>
+      <p>Напишите нам в WhatsApp — ответим в течение нескольких минут и согласуем удобное время</p>
+      <a href="https://wa.me/79275757200" class="btn-primary" style="display:inline-block;margin-bottom:14px;">💬 Написать в WhatsApp</a>
+      <br>
+      <a href="https://t.me/+79275757200" class="btn-outline" style="display:inline-block;margin-bottom:14px;">✈️ Telegram</a>
+      <br>
+      <a href="tel:+79275757200" class="btn-outline" style="display:inline-block;">📞 Позвонить</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="logo">Astra<span>Climat</span></a>
+  <p>© 2025 AstraClimat — Ремонт автокондиционеров, вебасто и отопителей в Астрахани</p>
+  <p>Фунтовское шоссе, 5Г · Пн–Пт 09:00–18:00</p>
+</footer>
+
+<script>
+  document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var name = this.getAttribute('data-tab');
+      document.querySelectorAll('.price-table').forEach(function(t) { t.classList.remove('active'); });
+      document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+      document.getElementById('tab-' + name).classList.add('active');
+      this.classList.add('active');
+    });
+  });
+
+  // Smooth scroll for nav links
+  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
