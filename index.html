@@ -17,6 +17,7 @@
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   html, body { overflow-x: hidden; max-width: 100%; }
+  * { max-width: 100%; }
   html { scroll-behavior: smooth; }
   body { background:var(--darker); color:var(--text); font-family:'Montserrat',sans-serif; overflow-x:hidden; }
 
@@ -238,7 +239,8 @@
     nav { padding:14px 20px; }
     nav ul { display:none; }
     .hero { padding:80px 20px 60px; }
-    .hero h1 { font-size: 48px !important; line-height: 1.05; }
+    .hero h1 { font-size: 42px !important; line-height: 1.1; }
+    .hero h1 .ice { display: block; }
     .hero p { font-size: 14px; }
     .stats-bar { flex-wrap: wrap; }
     .stat { flex: 0 0 50%; border-right: none; border-bottom: 1px solid rgba(0,207,255,0.1); }
@@ -247,7 +249,7 @@
     section { padding:50px 20px; }
     .section-title { font-size: 36px !important; margin-bottom: 30px; }
     .services-grid { grid-template-columns:1fr; }
-    .works-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
+    .works-grid { grid-template-columns:1fr; gap:10px; }
     .reviews-grid { grid-template-columns:1fr; }
     .why-grid { grid-template-columns:repeat(2,1fr); }
     .contacts-wrapper { grid-template-columns:1fr; gap: 40px; }
@@ -284,7 +286,7 @@
   <div class="grid-bg"></div>
   <div class="hero-content">
     <div class="hero-badge">🌡️ Автокондиционеры · Вебасто · Отопители · Астрахань</div>
-    <h1>ВАША<br>ТЕХНИКА<br><span class="ice">В НАДЁЖНЫХ</span><br>РУКАХ</h1>
+    <h1>ВАША ТЕХНИКА <span class="ice">В НАДЁЖНЫХ</span> РУКАХ</h1>
     <p>Ремонт, заправка и установка автокондиционеров для легковых, автобусов и грузовых. Также ремонт вебасто, пневмосистем и автономных отопителей. Нормочас от 1 400 ₽.</p>
     <div class="hero-btns">
       <a href="https://wa.me/79275757200" class="btn-primary">📲 WhatsApp</a>
